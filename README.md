@@ -9,15 +9,28 @@ Welcome!
 1. Check your Python Version by running `python3 --version`
     - It should be `>= 3.6`
     - If it's `< 3.6` please update your Python
-2. Run `python3 -m venv path/to/venvs/d_py38_SimBEV` (Note: change `py38` with your `python3 --version`)
+2. Change into your venv directory `cd ~/path/to/venvs/`
+3. Run `python3 -m venv d_py38_SimBEV` (Note: change `py38` with your `python3 --version`)
     - You may or may not have to install `python3-venv`
     - Run `apt-get update`
     - and `apt-get install python3-venv`
     - You may or may not need `sudo`
     - rerun `python3 -m venv path/to/venvs/d_py38_SimBEV` if `python3-venv` had to be installed first
-3. Run `source d_py38_SimBEV/bin/activate` to activate your newly created `venv`
-4. Change into your git directory `cd path/to/my/git/repos/`
-5. `git clone` the `SimBEV` repository from [here]()
+4. Run `source d_py38_SimBEV/bin/activate` to activate your newly created `venv`
+5. Change into your git directory `cd ~/path/to/my/git/repos/`
+6. `git clone` the `SimBEV` repository from [here](https://github.com/RLI-Workshops/simbev) (Note: I forked the project. So be sure to use this link.)
+    - Either use `HTTPS` or `SSH` depending on your setup
+7. `cd simbev/`
+8. Checkout the workshop branch with `git checkout feature/tub-workshop`
+9. `pip3 install -r requirements.txt`
+10. You can check if all following packages were installed with `pip3 list`
+    - configparser
+    - numpy
+    - pandas
+    - matplotlib
+    - seaborn
+    - jupyterlab
+
 
 
 # Download and run SimBEV
