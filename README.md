@@ -1,3 +1,25 @@
+# 2021-06-22 TUB Workshop
+
+Welcome!
+
+## Setup
+
+### Linux
+
+1. Check your Python Version by running `python3 --version`
+    - It should be `>= 3.6`
+    - If it's `< 3.6` please update your Python
+2. Run `python3 -m venv path/to/venvs/d_py38_SimBEV` (Note: change `py38` with your `python3 --version`)
+    - You may or may not have to install `python3-venv`
+    - Run `apt-get update`
+    - and `apt-get install python3-venv`
+    - You may or may not need `sudo`
+    - rerun `python3 -m venv path/to/venvs/d_py38_SimBEV` if `python3-venv` had to be installed first
+3. Run `source d_py38_SimBEV/bin/activate` to activate your newly created `venv`
+4. Change into your git directory `cd path/to/my/git/repos/`
+5. `git clone` the `SimBEV` repository from [here]()
+
+
 # Download and run SimBEV
 
 ## Download/install

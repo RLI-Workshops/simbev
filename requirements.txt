@@ -1,3 +1,6 @@
 configparser
 numpy
 pandas
+matplotlib
+seaborn
+jupyterlab
