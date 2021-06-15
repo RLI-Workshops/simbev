@@ -6,11 +6,11 @@ Welcome!
 
 ### Linux
 
-1. Check your Python Version by running `python3 --version`
+1. Check your Python Version by running `python3 --version` in your terminal
     - It should be `>= 3.6`
     - If it's `< 3.6` please update your Python
 2. Change into your venv directory `cd ~/path/to/venvs/`
-3. Run `python3 -m venv d_py38_SimBEV` (Note: change `py38` with your `python3 --version`)
+3. Run `python3 -m venv d_py38_SimBEV` (Note: change `py38` accordingly to your `python3 --version`)
     - You may or may not have to install `python3-venv`
     - Run `apt-get update`
     - and `apt-get install python3-venv`
@@ -23,7 +23,7 @@ Welcome!
 7. `cd simbev/`
 8. Checkout the workshop branch with `git checkout feature/tub-workshop`
 9. `pip3 install -r requirements.txt`
-10. You can check if all following packages were installed with `pip3 list`
+10. You can check if the following packages were installed with `pip3 list`
     - configparser
     - numpy
     - pandas
@@ -32,7 +32,8 @@ Welcome!
     - jupyterlab
 
 
-
+# LEGACY - Ignore this part for now:
+------------------------------------
 # Download and run SimBEV
 
 ## Download/install
