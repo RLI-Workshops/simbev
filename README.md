@@ -6,7 +6,7 @@ Welcome!
 
 ### Linux
 
-1. Check your Python Version by running `python3 --version`
+1. Check your Python Version by running `python3 --version` in your terminal
     - It should be `>= 3.6`
     - If it's `< 3.6` please update your Python
 2. Change into your venv directory `cd ~/path/to/venvs/`
