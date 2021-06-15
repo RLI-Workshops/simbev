@@ -23,7 +23,7 @@ Welcome!
 7. `cd simbev/`
 8. Checkout the workshop branch with `git checkout feature/tub-workshop`
 9. `pip3 install -r requirements.txt`
-10. You can check if all following packages were installed with `pip3 list`
+10. You can check if the following packages were installed with `pip3 list`
     - configparser
     - numpy
     - pandas
@@ -32,7 +32,8 @@ Welcome!
     - jupyterlab
 
 
-
+# LEGACY - Ignore this part for now:
+------------------------------------
 # Download and run SimBEV
 
 ## Download/install
