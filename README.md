@@ -4,6 +4,25 @@ Welcome!
 
 ## Setup
 
+### Windows
+
+1. Change into your python/git directory on your local device and create a new folder for this workshop `C:\Users\xxx\projects_python\simbev_workshop`
+2. Use a git programme (e.g. Git Bash) to clone the repository https://github.com/RLI-Workshops/simbev into the new folder using `git clone https://github.com/RLI-Workshops/simbev`
+3. In your git programme, change into the cloned repository using `cd simbev` you now should see the current branch in brackets, e.g. (dev)
+4. Checkout the workshop branch with `git checkout feature/tub-workshop`
+5. Start your Anaconda Prompt
+6. Create a new virtual environment using `conda create -n venv_test python`
+7. Activate the new environment using `conda activate venv_test`
+8. Change into the cloned repository on your local device using `cd project_python\simbev_workshop\simbev`
+9. Install the required packages using `pip3 install -r requirements.txt`
+10. You can check if the following packages were installed with `pip3 list`
+    - configparser
+    - numpy
+    - pandas
+    - matplotlib
+    - seaborn
+    - jupyterlab
+
 ### Linux
 
 1. Check your Python Version by running `python3 --version` in your terminal
