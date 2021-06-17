@@ -6,9 +6,9 @@ Welcome!
 
 ### Windows
 
-1. Change into your `python/git` directory on your local device and create a new folder for this workshop `C:\Users\xxx\projects_python\simbev_workshop`
+1. Change into your `python/git` directory on your local device and create a new folder for this workshop `simbev_workshop`
 2. Use a git programme (e.g. Git Bash) to clone the repository https://github.com/RLI-Workshops/simbev into the new folder using `git clone https://github.com/RLI-Workshops/simbev`
-3. In your git programme, change into the cloned repository using `cd simbev` you now should see the current branch in brackets, e.g. (dev)
+3. In your git bash terminal, change into the cloned repository using `cd simbev` you now should see the current branch in brackets, e.g. (dev)
 4. Checkout the workshop branch with `git checkout feature/tub-workshop`
 5. Start your Anaconda Prompt
 6. Create a new virtual environment using `conda create -n d_py38_SimBEV python` (Note: change `py38` accordingly to your `python3 --version`)
