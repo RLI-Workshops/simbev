@@ -7,7 +7,9 @@ Welcome!
 ### Windows
 
 1. Change into your `python/git` directory on your local device and create a new folder for this workshop `simbev_workshop`
-2. Use a git programme (e.g. Git Bash) to clone the repository https://github.com/RLI-Workshops/simbev into the new folder using `git clone https://github.com/RLI-Workshops/simbev`
+2. Use a git programme (e.g. Git Bash) to `git clone` the repository from [here](https://github.com/RLI-Workshops/simbev) into the new folder
+    - Note: I forked the project. So be sure to use the link above.
+    - Either use `HTTPS` or `SSH` depending on your setup
 3. In your git bash terminal, change into the cloned repository using `cd simbev` you now should see the current branch in brackets, e.g. (dev)
 4. Checkout the workshop branch with `git checkout feature/tub-workshop`
 5. Start your Anaconda Prompt
