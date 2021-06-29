@@ -219,7 +219,7 @@ if __name__ == "__main__":
     main_path = directory.joinpath(result_dir)
 
     # make dirs
-    os.mkdir(main_path, exist_ok=True)
+    os.makedirs(main_path, exist_ok=True)
 
     print("Writing to {}".format(main_path))
 
