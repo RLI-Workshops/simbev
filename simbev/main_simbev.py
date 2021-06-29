@@ -209,7 +209,7 @@ if __name__ == "__main__":
     num_threads = cfg.getint('sim_params', 'num_threads')
 
     # create directory for standing times data
-    directory = r"~/simbev_nep_2035_results/"
+    directory = r"/simbev_nep_2035_results/"
     directory = Path(directory)
 
     # result dir
