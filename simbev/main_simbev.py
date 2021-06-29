@@ -209,11 +209,11 @@ if __name__ == "__main__":
     num_threads = cfg.getint('sim_params', 'num_threads')
 
     # create directory for standing times data
-    directory = "res"
+    directory = r"~/Daten_flexibel_02/simbev_results/calculations_for_anya/simbev_nep_2035_results/"
     directory = Path(directory)
 
     # result dir
-    result_dir = f'{args.scenario}_{datetime.now().strftime("%Y-%m-%d_%H%M%S")}_simbev_run'
+    result_dir = f'{args.scenario}_{datetime.now().strftime("%Y-%m-%d")}_simbev_run'
 
     # path join
     main_path = directory.joinpath(result_dir)
