@@ -187,7 +187,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='SimBEV modelling tool for generating timeseries of electric '
                                                  'vehicles.')
-    parser.add_argument('scenario', default="default_single", nargs='?', help='Set the scenario which is located in ./scenarios .')
+    parser.add_argument('scenario', default="default_multi", nargs='?', help='Set the scenario which is located in ./scenarios .')
     args = parser.parse_args()
 
     # check if scenario exists
