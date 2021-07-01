@@ -955,6 +955,71 @@ def charging_flexibility(
         ]
     ]
 
+    cp_use_case_mapping = pd.read_csv(
+        "/home/kilian/Documents/git/github/simbev_mirror/simbev/scenarios/default_multi/scenario_EV_charging_point_use_case_mapping.csv")
+
+    cp_use_case_mapping = cp_use_case_mapping.loc[
+        cp_use_case_mapping.year == "2035"
+    ].drop(["year"], axis="columns").set_index("destination")
+
+    cp_use_case_mapping.charging_capacity = cp_use_case_mapping.charging_capacity.round(0).astype(int)
+
+    # get charging capacity work and home
+    charging_capacity_home = charging_car[charging_car.location == "6_home"]
+
+    if len(charging_capacity_home) > 0:
+        charging_capacity_home = charging_capacity_home.netto_charging_capacity.iat[0]
+        charging_capacity_home = int(round(charging_capacity_home, 0))
+    else:
+        charging_capacity_home = 0
+
+    charging_capacity_work = charging_car[charging_car.location == "0_work"]
+
+    if len(charging_capacity_work) > 0:
+        charging_capacity_work = charging_capacity_work.netto_charging_capacity.iat[0]
+        charging_capacity_work = int(round(charging_capacity_work, 0))
+    else:
+        charging_capacity_work = 0
+
+    # define if the charging process is public or private
+    if charging_capacity_home not in cp_use_case_mapping.charging_capacity.tolist():
+        home_cp = "public"
+    else:
+        private_prob = cp_use_case_mapping.loc[
+            (cp_use_case_mapping.index == "home") &
+            (cp_use_case_mapping.charging_capacity == charging_capacity_home)
+            ].private.iat[0]
+
+        random_number = rng.random()
+
+        if random_number <= private_prob:
+            home_cp = "private"
+        else:
+            home_cp = "public"
+
+    if charging_capacity_work not in cp_use_case_mapping.charging_capacity.tolist():
+        work_cp = "public"
+    else:
+        private_prob = cp_use_case_mapping.loc[
+            (cp_use_case_mapping.index == "work") &
+            (cp_use_case_mapping.charging_capacity == charging_capacity_work)
+            ].private.iat[0]
+
+        random_number = rng.random()
+
+        if random_number <= private_prob:
+            work_cp = "private"
+        else:
+            work_cp = "public"
+
+    if work_cp == "private":
+        print("break")
+
+    charging_car["use_case"] = [
+        work_cp if location == "0_work" else home_cp if location == "6_home" else "public"
+        for location in charging_car.location
+    ]
+
     filename = "{}_{:05d}_standing_times.csv".format(car_type, car_number)
 
     file_path = path.joinpath(filename)
