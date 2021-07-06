@@ -1014,9 +1014,6 @@ def charging_flexibility(
         else:
             work_cp = "public"
 
-    if work_cp == "private":
-        print("break")
-
     charging_car["use_case"] = [
         work_cp if location == "0_work" else home_cp if location == "6_home" else "public"
         for location in charging_car.location
