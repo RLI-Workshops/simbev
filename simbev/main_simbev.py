@@ -209,7 +209,7 @@ if __name__ == "__main__":
     num_threads = cfg.getint('sim_params', 'num_threads')
 
     # create directory for standing times data
-    directory = r"/home/local/RL-INSTITUT/kilian.helfenbein/temp/calculations_for_anya/simbev_nep_2035_results/"
+    directory = r"/home/local/RL-INSTITUT/kilian.helfenbein/temp/calculations_for_anya_02/simbev_nep_2035_results/"
     # directory = r"/home/local/RL-INSTITUT/kilian.helfenbein/Daten_flexibel_02/simbev_results/calculations_for_anya/simbev_nep_2035_results/" # server
     # directory = r"/home/kilian/Documents/trash" # local
     directory = Path(directory)
