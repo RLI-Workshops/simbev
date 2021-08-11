@@ -892,24 +892,6 @@ def charging_flexibility(
     #
     # charging_car.loc[~mask_drive, 'SoC_end'] = new_soc_end
 
-    # get charging capacity work and home
-    charging_capacity_home = charging_car[charging_car.location == "6_home"]
-
-    if len(charging_capacity_home) > 0:
-        charging_capacity_home = charging_capacity_home.netto_charging_capacity.iat[0]
-        charging_capacity_home = int(round(charging_capacity_home / eta, 0))
-    else:
-        charging_capacity_home = 0
-
-    charging_capacity_work = charging_car[charging_car.location == "0_work"]
-
-    if len(charging_capacity_work) > 0:
-        charging_capacity_work = charging_capacity_work.netto_charging_capacity.iat[0]
-        charging_capacity_work = int(round(charging_capacity_work / eta, 0))
-    else:
-        charging_capacity_work = 0
-
-
     # add row with car_type
     charging_car["car_type"] = car_type
 
@@ -971,7 +953,7 @@ def charging_flexibility(
 
     if len(charging_capacity_home) > 0:
         charging_capacity_home = charging_capacity_home.netto_charging_capacity.iat[0]
-        charging_capacity_home = int(round(charging_capacity_home, 0))
+        charging_capacity_home = int(round(charging_capacity_home / eta, 0))
     else:
         charging_capacity_home = 0
 
@@ -979,7 +961,7 @@ def charging_flexibility(
 
     if len(charging_capacity_work) > 0:
         charging_capacity_work = charging_capacity_work.netto_charging_capacity.iat[0]
-        charging_capacity_work = int(round(charging_capacity_work, 0))
+        charging_capacity_work = int(round(charging_capacity_work / eta, 0))
     else:
         charging_capacity_work = 0
 
