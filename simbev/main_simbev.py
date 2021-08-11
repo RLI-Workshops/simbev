@@ -265,11 +265,12 @@ def init_simbev(args):
                 'eta_cp': eta_cp}
 
     # create directory for standing times data
-    directory = "res"
+    # directory = "res"
+    directory = r"/home/local/RL-INSTITUT/kilian.helfenbein/Daten_flexibel_02/simbev_results/calculations_for_anya_02/simbev_nep_2035_results/" # server
     directory = Path(directory)
 
     # result dir
-    result_dir = f'{args.scenario}_{datetime.now().strftime("%Y-%m-%d_%H%M%S")}_simbev_run'
+    result_dir = f'{args.scenario}_{datetime.now().strftime("%Y-%m-%d")}_simbev_run'
 
     # path join
     main_path = directory.joinpath(result_dir)
@@ -321,7 +322,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='SimBEV modelling tool for generating timeseries of electric '
                                                  'vehicles.')
-    parser.add_argument('scenario', default="default_single", nargs='?',
+    parser.add_argument('scenario', default="default_multi", nargs='?',
                         help='Set the scenario which is located in ./scenarios .')
     p_args = parser.parse_args()
     init_simbev(p_args)

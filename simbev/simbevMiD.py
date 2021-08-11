@@ -956,8 +956,8 @@ def charging_flexibility(
     ]
 
     cp_use_case_mapping = pd.read_csv(
-        # "/home/kilian/Documents/git/github/simbev_mirror/simbev/scenarios/default_multi/scenario_EV_charging_point_use_case_mapping.csv", # TODO
-        "/home/local/RL-INSTITUT/kilian.helfenbein/git/github/simbev/simbev/scenarios/default_multi/scenario_EV_charging_point_use_case_mapping.csv"
+        "/home/kilian/Documents/git/github/simbev_mirror/simbev/scenarios/default_multi/scenario_EV_charging_point_use_case_mapping.csv", # TODO
+        # "/home/local/RL-INSTITUT/kilian.helfenbein/git/github/simbev/simbev/scenarios/default_multi/scenario_EV_charging_point_use_case_mapping.csv"
     )
 
     cp_use_case_mapping = cp_use_case_mapping.loc[
