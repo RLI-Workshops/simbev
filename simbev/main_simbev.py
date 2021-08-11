@@ -266,7 +266,8 @@ def init_simbev(args):
 
     # create directory for standing times data
     # directory = "res"
-    directory = r"/home/local/RL-INSTITUT/kilian.helfenbein/Daten_flexibel_02/simbev_results/calculations_for_anya_02/simbev_nep_2035_results/" # server
+    directory = r"/home/local/RL-INSTITUT/kilian.helfenbein/Daten_flexibel_02/simbev_results/calculations_for_anya_02/simbev_nep_2035_results" # server
+    # directory = r"/home/kilian/rli/Daten_flexibel_02/simbev_results/calculations_for_anya_02/simbev_nep_2035_results"
     directory = Path(directory)
 
     # result dir
