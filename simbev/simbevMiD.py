@@ -292,7 +292,7 @@ def availability(
                     distance = rng.choice(
                         population_dis,
                         p=weights_dis,
-                    )
+                    ) * 14 / 23
                 distance_unique.append(distance)
                 # print("distance done: " + str(distance))
 
@@ -1000,8 +1000,6 @@ def charging_flexibility(
         work_cp if location == "0_work" else home_cp if location == "6_home" else "public"
         for location in charging_car.location
     ]
-
-    print(charging_car.chargingdeman.sum()/0.2)
 
     filename = "{}_{:05d}_standing_times.csv".format(car_type, car_number)
 
