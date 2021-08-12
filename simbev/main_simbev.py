@@ -306,9 +306,11 @@ def init_simbev(args):
 
     print(f'Running simbev in {num_threads} thread(s)...')
     if num_threads == 1:
-        for region_ctr, (region_id, region_data) in enumerate(regions.iterrows()):
+        for region_ctr, (region_id, region_data) in enumerate(regions.iloc[10:].iterrows()):
             run_simbev(region_ctr, region_id, region_data, cfg_dict, charge_prob,
                        regions, tech_data, main_path)
+
+            break
     else:
         pool = mp.Pool(processes=num_threads)
 
