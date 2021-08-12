@@ -1001,6 +1001,8 @@ def charging_flexibility(
         for location in charging_car.location
     ]
 
+    print(charging_car.chargingdeman.sum()/0.2)
+
     filename = "{}_{:05d}_standing_times.csv".format(car_type, car_number)
 
     file_path = path.joinpath(filename)
