@@ -28,201 +28,195 @@ def run_simbev(region_ctr, region_id, region_data, cfg_dict, charge_prob,
     """Run simbev for single region"""
     print(f'===== Region: {region_id} ({region_ctr + 1}/{len(regions)}) =====')
 
-    # TODO
-    unfullfilled_lst = [13076166, 13076165, 13076164, 13076096, 13076077, 9674210, 9184119]
+    # set variables from cfg
+    stepsize = cfg_dict['stepsize']
+    eta_cp = cfg_dict['eta_cp']
+    rng = cfg_dict['rng']
+    soc_min = cfg_dict['soc_min']
 
-    if region_id in unfullfilled_lst:
-        # set variables from cfg
-        stepsize = cfg_dict['stepsize']
-        eta_cp = cfg_dict['eta_cp']
-        rng = cfg_dict['rng']
-        soc_min = cfg_dict['soc_min']
+    # get probabilities
+    probdata, tseries_purpose = simbevMiD.get_prob(
+        region_data.RegioStaR7,
+        stepsize, cfg_dict['start_date'], cfg_dict['end_date'], cfg_dict['weekdays'], cfg_dict['min_per_day'],)
 
-        # get probabilities
-        probdata, tseries_purpose = simbevMiD.get_prob(
-            region_data.RegioStaR7,
-            stepsize, cfg_dict['start_date'], cfg_dict['end_date'], cfg_dict['weekdays'], cfg_dict['min_per_day'],)
+    car_type_list = sorted([t for t in regions.columns if t != 'RegioStaR7'])
 
-        car_type_list = sorted([t for t in regions.columns if t != 'RegioStaR7'])
+    columns = [
+        "location",
+        "SoC",
+        "chargingdemand",
+        "charge_time",
+        "charge_start",
+        "charge_end",
+        "netto_charging_capacity",
+        "consumption",
+        "drive_start",
+        "drive_end",
+    ]
 
-        columns = [
-            "location",
-            "SoC",
-            "chargingdemand",
-            "charge_time",
-            "charge_start",
-            "charge_end",
-            "netto_charging_capacity",
-            "consumption",
-            "drive_start",
-            "drive_end",
-        ]
+    # init charging demand df
+    ca = {
+        "location": "init",
+        "SoC": 0,
+        "chargingdemand": 0,
+        "charge_time": 0,
+        "charge_start": 0,
+        "charge_end": 0,
+        "netto_charging_capacity": 0,
+        "consumption": 0,
+        "drive_start": 0,
+        "drive_end": 0,
+    }
 
-        # init charging demand df
-        ca = {
-            "location": "init",
-            "SoC": 0,
-            "chargingdemand": 0,
-            "charge_time": 0,
-            "charge_start": 0,
-            "charge_end": 0,
-            "netto_charging_capacity": 0,
-            "consumption": 0,
-            "drive_start": 0,
-            "drive_end": 0,
-        }
+    # get number of cars
+    numcar_list = list(region_data[car_type_list])
 
-        # get number of cars
-        numcar_list = list(region_data[car_type_list])
+    # SOC init value for the first monday
+    soc_init = [
+        rng.random() ** (1 / 3) * 0.8 + 0.2 if rng.random() < 0.12 else 1
+        for _ in range(sum(numcar_list))
+    ]
+    count_cars = 0
 
-        # SOC init value for the first monday
-        soc_init = [
-            rng.random() ** (1 / 3) * 0.8 + 0.2 if rng.random() < 0.12 else 1
-            for _ in range(sum(numcar_list))
-        ]
-        count_cars = 0
+    region_path = main_path.joinpath(str(region_id))
+    region_path.mkdir(exist_ok=True)
 
-        region_path = main_path.joinpath(str(region_id))
-        region_path.mkdir(exist_ok=True)
+    # loop for types of cars
+    for idx, car_type_name in enumerate(car_type_list):
+        tech_data_car = tech_data.loc[car_type_name]
+        numcar = numcar_list[idx]
 
-        # loop for types of cars
-        for idx, car_type_name in enumerate(car_type_list):
-            tech_data_car = tech_data.loc[car_type_name]
-            numcar = numcar_list[idx]
+        if "bev" in car_type_name:
+            car_type = "BEV"
+        else:
+            car_type = "PHEV"
 
-            if "bev" in car_type_name:
-                car_type = "BEV"
-            else:
-                car_type = "PHEV"
+        # loop for number of cars
+        for icar in range(numcar):
+            print("\r{}% {} {} / {}".format(
+                round((count_cars + 1) * 100 / sum(numcar_list)),
+                car_type_name,
+                (icar + 1), numcar
+            ), end="", flush=True)
+            charging_car = pd.DataFrame(
+                data=ca,
+                columns=columns,
+                index=[0],
+            )
+            # print(icar)
+            # indices to ensure home and work charging capacity does not alternate
+            idx_home = 0
+            idx_work = 0
+            home_charging_capacity = 0
+            work_charging_capacity = 0
 
-            # loop for number of cars
-            for icar in range(numcar):
-                print("\r{}% {} {} / {}".format(
-                    round((count_cars + 1) * 100 / sum(numcar_list)),
-                    car_type_name,
-                    (icar + 1), numcar
-                ), end="", flush=True)
-                charging_car = pd.DataFrame(
-                    data=ca,
-                    columns=columns,
-                    index=[0],
-                )
-                # print(icar)
-                # indices to ensure home and work charging capacity does not alternate
-                idx_home = 0
-                idx_work = 0
-                home_charging_capacity = 0
-                work_charging_capacity = 0
+            # init data for car status
+            range_sim = len(tseries_purpose)
+            carstatus = np.zeros(int(range_sim))
 
-                # init data for car status
-                range_sim = len(tseries_purpose)
-                carstatus = np.zeros(int(range_sim))
+            car_data = {
+                "place": "6_home",
+                "status": carstatus,
+                "distance": 0,
+            }
 
-                car_data = {
-                    "place": "6_home",
-                    "status": carstatus,
-                    "distance": 0,
-                }
+            # init availability df
+            # a = {
+            #     "status": 0,
+            #     "location": "init",
+            #     "distance": 0,
+            # }
+            # availability = pd.DataFrame(
+            #     data=a,
+            #     columns=[
+            #         "status",
+            #         "location",
+            #         "distance",
+            #     ],
+            #     index=[0],
+            # )
 
-                # init availability df
-                # a = {
-                #     "status": 0,
-                #     "location": "init",
-                #     "distance": 0,
-                # }
-                # availability = pd.DataFrame(
-                #     data=a,
-                #     columns=[
-                #         "status",
-                #         "location",
-                #         "distance",
-                #     ],
-                #     index=[0],
-                # )
+            soc_start = soc_init[count_cars]
 
-                soc_start = soc_init[count_cars]
-
-                last_charging_capacity = min(
-                    simbevMiD.slow_charging_capacity(
-                        charge_prob['slow'],
-                        '6_home',
-                        rng,
-                    ),
-                    tech_data_car.max_charging_capacity_slow,
-                ) * eta_cp
-
-                # loop for days of the week
-                # for key in wd:
-                # create availability timeseries and charging times
-                (av, car_data, demand,
-                 soc_start, idx_home,
-                 idx_work, home_charging_capacity,
-                 work_charging_capacity) = simbevMiD.availability(
-                    car_data,
-                    probdata,
-                    stepsize,
-                    tech_data_car.battery_capacity,
-                    tech_data_car.energy_consumption,
-                    tech_data_car.max_charging_capacity_slow,
-                    tech_data_car.max_charging_capacity_fast,
-                    soc_start,
-                    car_type,
+            last_charging_capacity = min(
+                simbevMiD.slow_charging_capacity(
                     charge_prob['slow'],
-                    charge_prob['fast'],
-                    idx_home,
-                    idx_work,
-                    home_charging_capacity,
-                    work_charging_capacity,
-                    last_charging_capacity,
+                    '6_home',
                     rng,
-                    eta_cp,
-                    soc_min,
-                    tseries_purpose,
-                    carstatus
-                )
+                ),
+                tech_data_car.max_charging_capacity_slow,
+            ) * eta_cp
 
-                # add results for this day to availability timeseries
-                # availability = availability.append(av).reset_index(drop=True)
+            # loop for days of the week
+            # for key in wd:
+            # create availability timeseries and charging times
+            (av, car_data, demand,
+             soc_start, idx_home,
+             idx_work, home_charging_capacity,
+             work_charging_capacity) = simbevMiD.availability(
+                car_data,
+                probdata,
+                stepsize,
+                tech_data_car.battery_capacity,
+                tech_data_car.energy_consumption,
+                tech_data_car.max_charging_capacity_slow,
+                tech_data_car.max_charging_capacity_fast,
+                soc_start,
+                car_type,
+                charge_prob['slow'],
+                charge_prob['fast'],
+                idx_home,
+                idx_work,
+                home_charging_capacity,
+                work_charging_capacity,
+                last_charging_capacity,
+                rng,
+                eta_cp,
+                soc_min,
+                tseries_purpose,
+                carstatus
+            )
 
-                # print("Auto Nr. " + str(count) + " / " + str(icar))
-                # print(str(home_charging_capacity) + " kW")
-                # print(demand.loc[demand.location == "6_home"].netto_charging_capacity)
+            # add results for this day to availability timeseries
+            # availability = availability.append(av).reset_index(drop=True)
 
-                # add results for this day to demand time series
-                # charging_all = charging_all.append(demand)
+            # print("Auto Nr. " + str(count) + " / " + str(icar))
+            # print(str(home_charging_capacity) + " kW")
+            # print(demand.loc[demand.location == "6_home"].netto_charging_capacity)
 
-                # add results for this day to demand time series for a single car
-                charging_car = charging_car.append(demand)
-                # print(key, charging_car)
+            # add results for this day to demand time series
+            # charging_all = charging_all.append(demand)
 
-                last_charging_capacity = charging_car.netto_charging_capacity.iat[-1]
-                # print("car" + str(icar) + "done")
+            # add results for this day to demand time series for a single car
+            charging_car = charging_car.append(demand)
+            # print(key, charging_car)
 
-                simbevMiD.charging_flexibility(
-                    charging_car,
-                    car_type_name,
-                    icar,
-                    stepsize,
-                    len(tseries_purpose),
-                    tech_data_car.battery_capacity,
-                    rng,
-                    eta_cp,
-                    region_path,
-                    tseries_purpose,
-                )
+            last_charging_capacity = charging_car.netto_charging_capacity.iat[-1]
+            # print("car" + str(icar) + "done")
 
-            # clean up charging_car
+            simbevMiD.charging_flexibility(
+                charging_car,
+                car_type_name,
+                icar,
+                stepsize,
+                len(tseries_purpose),
+                tech_data_car.battery_capacity,
+                rng,
+                eta_cp,
+                region_path,
+                tseries_purpose,
+            )
 
-                # drop init row of availability df
-            # availability = availability.iloc[1:]
-                # save availability df
-                # availability.to_csv("res/availability_car" + str(icar) + ".csv")
+        # clean up charging_car
 
-                count_cars += 1
-            if numcar >= 1:
-                print(" - done")
-    else:
-        pass
+            # drop init row of availability df
+        # availability = availability.iloc[1:]
+            # save availability df
+            # availability.to_csv("res/availability_car" + str(icar) + ".csv")
+
+            count_cars += 1
+        if numcar >= 1:
+            print(" - done")
 
 
 def init_simbev(args):
