@@ -346,7 +346,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='SimBEV modelling tool for generating timeseries of electric '
                                                  'vehicles.')
-    parser.add_argument('scenario', default="default_single", nargs='?',
+    parser.add_argument('scenario', default="default_multi", nargs='?',
                         help='Set the scenario which is located in ./scenarios .')
     p_args = parser.parse_args()
     init_simbev(p_args)
