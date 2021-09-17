@@ -988,8 +988,6 @@ def charging_flexibility(
 
     file_path = path.joinpath(filename)
 
-    print("\n", charging_car.chargingdemand.sum()/0.21)
-
     # export charging times per car
     charging_car.to_csv(file_path)
 
