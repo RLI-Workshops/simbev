@@ -276,7 +276,7 @@ def availability(
                     distance = rng.choice(
                         population_dis,
                         p=weights_dis,
-                    ) * 13/21
+                    ) * 12/21
                 distance_unique.append(distance)
                 # print("distance done: " + str(distance))
 
