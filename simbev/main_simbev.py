@@ -40,6 +40,9 @@ def run_simbev(region_ctr, region_id, region_data, cfg_dict, charge_prob,
         stepsize,
     )
 
+    # TODO
+    wd = wd[:7]
+
     car_type_list = sorted([t for t in regions.columns if t != 'RegioStaR7'])
 
     columns = [
@@ -266,9 +269,7 @@ def init_simbev(args):
 
     # create directory for standing times data
     # directory = "res"
-    directory = r"/home/local/RL-INSTITUT/kilian.helfenbein/Daten_flexibel_02/simbev_results/calculations_for_anya_02/simbev_nep_2035_results" # server
-    # directory = r"/home/kilian/rli/Daten_flexibel_02/simbev_results/calculations_for_anya_02/simbev_nep_2035_results"
-    # directory = r"/home/kilian/Documents/temp"
+    directory = "res"
     directory = Path(directory)
 
     # result dir
@@ -306,11 +307,9 @@ def init_simbev(args):
 
     print(f'Running simbev in {num_threads} thread(s)...')
     if num_threads == 1:
-        for region_ctr, (region_id, region_data) in enumerate(regions.iloc[10:].iterrows()):
+        for region_ctr, (region_id, region_data) in enumerate(regions.iterrows()):
             run_simbev(region_ctr, region_id, region_data, cfg_dict, charge_prob,
                        regions, tech_data, main_path)
-
-            break
     else:
         pool = mp.Pool(processes=num_threads)
 
@@ -326,7 +325,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='SimBEV modelling tool for generating timeseries of electric '
                                                  'vehicles.')
-    parser.add_argument('scenario', default="default_multi", nargs='?',
+    parser.add_argument('scenario', default="default_single", nargs='?',
                         help='Set the scenario which is located in ./scenarios .')
     p_args = parser.parse_args()
     init_simbev(p_args)
