@@ -921,8 +921,8 @@ def charging_flexibility(
     ]
 
     cp_use_case_mapping = pd.read_csv(
-        "/home/kilian/Documents/git/github/simbev_mirror/simbev/scenarios/default_multi/scenario_EV_charging_point_use_case_mapping.csv", # TODO
-        # "/home/local/RL-INSTITUT/kilian.helfenbein/git/github/simbev/simbev/scenarios/default_multi/scenario_EV_charging_point_use_case_mapping.csv"
+        # "/home/kilian/Documents/git/github/simbev_mirror/simbev/scenarios/default_multi/scenario_EV_charging_point_use_case_mapping.csv", # TODO
+        "/home/local/RL-INSTITUT/kilian.helfenbein/git/github/simbev/simbev/scenarios/default_multi/scenario_EV_charging_point_use_case_mapping.csv"
     )
 
     cp_use_case_mapping = cp_use_case_mapping.loc[
@@ -987,6 +987,8 @@ def charging_flexibility(
     filename = "{}_{:05d}_standing_times.csv".format(car_type, car_number)
 
     file_path = path.joinpath(filename)
+
+    print(charging_car.chargingdemand.sum()/0.15)
 
     # export charging times per car
     charging_car.to_csv(file_path)

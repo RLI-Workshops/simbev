@@ -293,7 +293,7 @@ def init_simbev(args):
 
     # create directory for standing times data
     # directory = "res"
-    directory = "res"
+    directory = "/storage/open_bea_calculations_v2/simbev_data"
     directory = Path(directory)
 
     # result dir
