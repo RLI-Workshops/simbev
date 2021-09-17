@@ -29,9 +29,9 @@ def run_simbev(region_ctr, region_id, region_data, cfg_dict, charge_prob,
     print(f'===== Region: {region_id} ({region_ctr + 1}/{len(regions)}) =====')
 
     # TODO
-    unfulfilled_lst = [13076166, 13076165, 13076164, 13076096, 13076077, 9674210, 9184119]
+    unfullfilled_lst = [13076166, 13076165, 13076164, 13076096, 13076077, 9674210, 9184119]
 
-    if region_id in unfulfilled_lst:
+    if region_id in unfullfilled_lst:
         # set variables from cfg
         stepsize = cfg_dict['stepsize']
         eta_cp = cfg_dict['eta_cp']
