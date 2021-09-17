@@ -294,8 +294,7 @@ def init_simbev(args):
     directory = Path(directory)
 
     # result dir
-    # result_dir = f'{args.scenario}_{datetime.now().strftime("%Y-%m-%d")}_simbev_run'
-    result_dir = f'{args.scenario}_test_simbev_run'
+    result_dir = f'{args.scenario}_{datetime.now().strftime("%Y-%m-%d")}_simbev_run'
 
     # path join
     main_path = directory.joinpath(result_dir)
