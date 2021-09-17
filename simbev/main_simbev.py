@@ -39,9 +39,6 @@ def run_simbev(region_ctr, region_id, region_data, cfg_dict, charge_prob,
         region_data.RegioStaR7,
         stepsize, cfg_dict['start_date'], cfg_dict['end_date'], cfg_dict['weekdays'], cfg_dict['min_per_day'],)
 
-    # TODO
-    wd = wd[:7]
-
     car_type_list = sorted([t for t in regions.columns if t != 'RegioStaR7'])
 
     columns = [
