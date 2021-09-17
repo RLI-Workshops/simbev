@@ -7,11 +7,15 @@ simbev_dir = Path(r"/storage/open_bea_calculations_v2/simbev_data/default_multi_
 
 file_count = 0
 
-sub_dirs = os.listdir(simbev_dir)
+sub_dirs = sorted(os.listdir(simbev_dir))
 
 print(len(sub_dirs))
 
 for sub_dir in sub_dirs:
-    file_count += len(os.listdir(os.path.join(simbev_dir, sub_dir)))
+    single_dir_file_count = len(os.listdir(os.path.join(simbev_dir, sub_dir)))
+
+    file_count += single_dir_file_count
+
+    print(sub_dir, single_dir_file_count)
 
 print(file_count)
