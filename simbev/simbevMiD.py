@@ -276,7 +276,7 @@ def availability(
                     distance = rng.choice(
                         population_dis,
                         p=weights_dis,
-                    )
+                    ) * 14/21
                 distance_unique.append(distance)
                 # print("distance done: " + str(distance))
 
@@ -988,7 +988,7 @@ def charging_flexibility(
 
     file_path = path.joinpath(filename)
 
-    print(charging_car.chargingdemand.sum()/0.15)
+    print("\n", charging_car.chargingdemand.sum()/0.15)
 
     # export charging times per car
     charging_car.to_csv(file_path)
